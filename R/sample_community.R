@@ -43,9 +43,14 @@ sample_community <- function(community, nDNA = 20000, nRNA = 20000) {
     rRNA_relabund
   )
 
-  # Calculate rRNA:rDNA ratio
+  # Calculate rRNA:rDNA ratio, converting Inf (rRNA/0) and NaN (0/0) to NA
   sampled_comm <- sampled_comm %>%
-    mutate(ratio = rDNA_relabund / rRNA_relabund)
+    mutate(ratio = rRNA_relabund / rDNA_relabund) %>%
+    mutate(ratio = case_when(
+      is.na(ratio) ~ as.double(NA),
+      ratio == Inf ~ as.double(NA),
+      TRUE ~ ratio
+    ))
 
   # Identify phantom OTUs (OTUs where an rRNA transcript is identified, but not
   # an rDNA gene)

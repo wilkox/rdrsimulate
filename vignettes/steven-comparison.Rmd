@@ -1,0 +1,79 @@
+---
+title: "Comparison to results of Steven et al. 2017"
+author: "David Wilkins"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This package is based on the approach described in:
+
+Steven, B., Hesse, C., Soghigian, J., Gallegos-Graves, L. V. & Dunbar, J. Simulated rRNA/DNA Ratios Show Potential To Misclassify Active Populations as Dormant. Appl Env Microbiol 83, e00696–17–11 (2017).
+
+However, there are a few key differences in this package compared to Steven et al.'s approach:
+
+1. The log-normal distribution from which population rDNA abundances are drawn has the fixed parameters μ = 0, σ = 1, with the intention of simulating a real microbial community as closely as possible. Steven et al. allowed these values to be set as simulation parameters.
+2. Only integer values for the rDNA absolute abundance are permitted (the Steven et al. simulation permitted fractional rDNA abundances). Fractional rDNA relative abundances are of course still permitted.
+3. The ribosomal amplification model is fixed as a "mixed" model, rather than offering a choice of a "low", "medium" or "high" amplification. This is again with the intention of best simulating a real microbial community.
+4. In the "mixed" model, the ribosomal amplification value for the maintenance and growing metabolic states are drawn at random from the uniform distributions 200:1000 and 500:10000 respectively. In the Steven et al. simulation, the amplification values were randomly drawn from three discrete values for these states in the mixed model. Amplification values for the dead and dormant states are still fixed at 1 and 100 respectively.
+
+# Effect of partial sampling on the rRNA:rDNA ratio
+
+Steven et al. reported that, for a community with the "medium" ribosomal amplification model, partial sampling of the community resulted in a large spread of rRNA:rDNA ratios > 1, with the spread decreasing as the sampling coverage increased.
+
+Let's try to replicate this result. We'll run 100 independent simulations for each of 1x, 10x, 100x and 1000x the population richness, which will be 5000 in all simulations. The sampling depth will be the same for both rDNA and rRNA. This will take a few minutes to run.
+
+```{r}
+#library(rdrsimulate)
+library(purrr)
+library(tidyverse)
+library(knitr)
+set.seed(1)
+
+simulate_partial_sampling <- function(i, depth) {
+
+  # Generate a community of 5,000 OTUs
+  comm <- generate_community()
+
+  # Simulate partial sampling to the specified depth
+  sampled_comm <- sample_community(comm, nDNA = depth, nRNA = depth)
+
+  # Return ratios
+  sampled_comm %>%
+    mutate(i = i) %>%
+    mutate(depth = depth) %>%
+    mutate(detected = rDNA_abund > 0) %>%
+    select(i, depth, ratio, detected)
+}
+
+# Simulate partial sampling 100 times for each depth
+iterated_simulation <- function(iterations, depth) {
+  map2_dfr(1:iterations, rep(depth, iterations), ~ simulate_partial_sampling(.x, .y))
+}
+results <- map_dfr(c(5000, 50000, 500000, 5000000), ~ iterated_simulation(100, .x))
+
+# Plot the results
+results %>%
+  ggplot(aes(x = ratio)) +
+  geom_histogram(bins = 100) +
+  facet_wrap( ~ depth)
+
+# Statistical summary for each depth
+results %>%
+  filter(! is.na(ratio)) %>%
+  group_by(depth) %>%
+  summarise(mean(ratio), median(ratio), max(ratio), sum(detected) / 5000) %>%
+  kable
+```
+
+These results are very similar to those reported by Steven et al.: the maximum ratio peaks at 50,000 reads, then decreases with decreasing coverage. It's surprising how much of a difference in the spread of ratios is observed even with complete coverage - this demonstrates just how sensitive the accuracy of the rRNA transcript count is to sequencing depth.

@@ -25,7 +25,7 @@ generate_community <- function(n = 5000) {
     mutate(rDNA_abund = as.integer(ceiling(rlnorm(n)))) %>%
     mutate(rDNA_relabund = 100 * rDNA_abund / sum(rDNA_abund))
 
-  # Set a ribosomal amplification for each OTU
+  # Set ribosomal amplification for each OTU
   # This is based on the 'mix' model from Steven et al.
   comm <- comm %>%
     mutate(ribo_amp = case_when(
@@ -36,11 +36,17 @@ generate_community <- function(n = 5000) {
     ))
 
   # Based on the rDNA abundance and ribosomal amplification, generate the rRNA
-  # abundance and relative abundance, and the rRNA:rDNA ratio
+  # abundance and relative abundance, and the rRNA:rDNA ratio, converting Inf
+  # (rRNA/0) and NaN (0/0) to NA
   comm <- comm %>%
     mutate(rRNA_abund = rDNA_abund * ribo_amp) %>%
     mutate(rRNA_relabund = 100 * rRNA_abund / sum(rRNA_abund)) %>%
-    mutate(ratio = rRNA_relabund / rDNA_relabund)
+    mutate(ratio = rRNA_relabund / rDNA_relabund) %>%
+    mutate(ratio = case_when(
+      is.na(ratio) ~ as.double(NA),
+      ratio == Inf ~ as.double(NA),
+      TRUE ~ ratio
+    ))
 
   # Return
   comm
