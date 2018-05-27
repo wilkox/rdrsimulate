@@ -1,7 +1,15 @@
+#' Note some refinements over Steven et al's approach:
+#' 1. Only integer values for the rDNA abundance are permitted (Steven et al.
+#' allowed for fractional abundances)
+#' 2. For the 'mix' model of rRNA amplification, the copy number for each
+#' metabolic state is drawn from a uniform distribution rather than from one of
+#' three discrete values (low, medium or high amplification)
+#'
+#' @importFrom magrittr "%>%"
 generate_community <- function(n = 5000) {
 
   # Set up the community
-  comm <- tibble(OTU = 1:n)
+  comm <- tibble::tibble(OTU = 1:n)
 
   # Randomly assign each OTU a metabolic state 
   comm <- comm %>%
@@ -14,7 +22,7 @@ generate_community <- function(n = 5000) {
   # Randomly assign each OTU an rDNA abundance and relative abundance, based on a
   # log-normal distribution with μ = 0, σ = 1
   comm <- comm %>%
-    mutate(rDNA_abund = ceiling(rlnorm(n))) %>%
+    mutate(rDNA_abund = as.integer(ceiling(rlnorm(n)))) %>%
     mutate(rDNA_relabund = 100 * rDNA_abund / sum(rDNA_abund))
 
   # Set a ribosomal amplification for each OTU
