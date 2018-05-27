@@ -1,12 +1,40 @@
-# This will become the sample_community function
+#' Simulate sampling of a microbial community.
+#'
+#' `sample_community` simulates a sequencing-based sampling experiment on a
+#' microbial community, with independent sequencing efforts for rDNA genes and
+#' rRNA transcripts.  community. This allows for the effects of partial
+#' sequencing to be evaluated.
+#'
+#' @return
+#'
+#' A tibble containing the measured rDNA and rRNA abundances drawn from the
+#' community. All OTUs in the input community, including those not detected,
+#' will be included. The `phantom` column indicates 'phantom OTUs' that yielded
+#' rRNA transcripts but not rDNA gene sequences.
+#'
+#' @param community A tibble containing a microbial community. This will usually be the output of `generate_community`.
+#' @param nDNA Number of rDNA gene sequences to simulate (i.e. rDNA read count)
+#' @param nRNA Number of rRNA transcript sequences to simulate (i.e. rRNA read
+#' count)
+#'
+#' @seealso generate_community
+#'
+#' @examples
+#'
+#' community <- generate_community(1000)
+#' sample_community(community, nDNA = 500, nRNA = 500)
+#'
+#' @import tibble
+#' @import dplyr
+#' @export
 sample_community <- function(community, nDNA = 20000, nRNA = 20000) {
 
   # Set up sampled community
-  sampled_comm <- comm %>%
+  sampled_comm <- community %>%
     select(OTU, met_state, ribo_amp)
 
   # Simulate random sequencing of rDNA genes
-  sampled_comm <- sample(comm$OTU, nDNA, prob = comm$rDNA_abund, replace = T) %>%
+  sampled_comm <- sample(community$OTU, nDNA, prob = community$rDNA_abund, replace = T) %>%
     tibble(OTU = .) %>%
     group_by(OTU) %>%
     summarise(rDNA_abund = n()) %>%
@@ -19,7 +47,7 @@ sample_community <- function(community, nDNA = 20000, nRNA = 20000) {
     mutate(rDNA_relabund = 100 * rDNA_abund / sum(rDNA_abund))
 
   # Simulate random sequencing of rRNA transcripts
-  sampled_comm <- sample(comm$OTU, nRNA, prob = comm$rRNA_abund, replace = T) %>%
+  sampled_comm <- sample(community$OTU, nRNA, prob = community$rRNA_abund, replace = T) %>%
     tibble(OTU = .) %>%
     group_by(OTU) %>%
     summarise(rRNA_abund = n()) %>%
@@ -60,3 +88,10 @@ sample_community <- function(community, nDNA = 20000, nRNA = 20000) {
   # Return
   sampled_comm
 }
+
+# Account for pesky global variables so check doesn't throw a note
+globalVariables(c(
+  "OTU",
+  "met_state",
+  "."
+))

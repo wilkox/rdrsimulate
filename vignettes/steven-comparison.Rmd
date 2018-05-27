@@ -34,10 +34,11 @@ Steven et al. reported that, for a community with the "medium" ribosomal amplifi
 Let's try to replicate this result. We'll run 100 independent simulations for each of 1x, 10x, 100x and 1000x the population richness, which will be 5000 in all simulations. The sampling depth will be the same for both rDNA and rRNA. This will take a few minutes to run.
 
 ```{r}
-#library(rdrsimulate)
+library(rdrsimulate)
 library(purrr)
-library(tidyverse)
 library(knitr)
+library(dplyr)
+library(ggplot2)
 set.seed(1)
 
 simulate_partial_sampling <- function(i, depth) {
@@ -45,22 +46,28 @@ simulate_partial_sampling <- function(i, depth) {
   # Generate a community of 5,000 OTUs
   comm <- generate_community()
 
+  # Store the true ratios
+  true_ratios <- comm$ratio
+
   # Simulate partial sampling to the specified depth
   sampled_comm <- sample_community(comm, nDNA = depth, nRNA = depth)
 
   # Return ratios
-  sampled_comm %>%
+  sampled_comm <- sampled_comm %>%
     mutate(i = i) %>%
     mutate(depth = depth) %>%
     mutate(detected = rDNA_abund > 0) %>%
-    select(i, depth, ratio, detected)
+    mutate(true_ratio = true_ratios) %>%
+    select(i, depth, ratio, detected, true_ratio)
+  sampled_comm
 }
 
 # Simulate partial sampling 100 times for each depth
-iterated_simulation <- function(iterations, depth) {
-  map2_dfr(1:iterations, rep(depth, iterations), ~ simulate_partial_sampling(.x, .y))
-}
-results <- map_dfr(c(5000, 50000, 500000, 5000000), ~ iterated_simulation(100, .x))
+results <- map2_dfr(
+  rep(1:100, 4),
+  rep(c(5000, 50000, 500000, 5000000), each = 100),
+  ~ simulate_partial_sampling(.x, .y)
+)
 
 # Plot the results
 results %>%
@@ -72,7 +79,15 @@ results %>%
 results %>%
   filter(! is.na(ratio)) %>%
   group_by(depth) %>%
-  summarise(mean(ratio), median(ratio), max(ratio), sum(detected) / 5000) %>%
+  summarise(
+    mean(ratio),
+    mean(true_ratio),
+    median(ratio),
+    median(true_ratio),
+    max(ratio),
+    max(true_ratio),
+    sum(detected) / 5000
+  ) %>%
   kable
 ```
 
