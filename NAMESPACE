@@ -3,4 +3,5 @@
 export(generate_community)
 export(sample_community)
 import(dplyr)
+import(magrittr)
 import(tibble)

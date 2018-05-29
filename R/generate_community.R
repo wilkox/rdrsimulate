@@ -8,7 +8,7 @@
 #' distribution with parameters μ = 0, σ = 1.
 #'
 #' The community is randomly divided into metabolic states of dead, dormant,
-#' maintenance or growing, with the proportion of each state drawn at random
+#' stationary or growing, with the proportion of each state drawn at random
 #' from a uniform distribution. The metabolic state of each OTU is independent
 #' of the OTU's rDNA abundance.
 #'
@@ -51,9 +51,9 @@
 #'
 #' @import tibble
 #' @import dplyr
+#' @import magrittr
 #' @export
 generate_community <- function(n = 5000) {
-
 
   # Set up the community
   comm <- tibble::tibble(OTU = 1:n)
@@ -62,7 +62,7 @@ generate_community <- function(n = 5000) {
   met_distribution <- stats::runif(4)
   comm <- comm %>%
     mutate(met_state = sample(
-      c("dead", "dormant", "maintenance", "growing"),
+      c("dead", "dormant", "stationary", "growing"),
       n,
       replace = T,
       prob = met_distribution
@@ -80,7 +80,7 @@ generate_community <- function(n = 5000) {
     mutate(ribo_amp = case_when(
       met_state == "dead" ~ 1L,
       met_state == "dormant" ~ 100L,
-      met_state == "maintenance" ~ sample(200:1000, n, replace = T),
+      met_state == "stationary" ~ sample(200:1000, n, replace = T),
       met_state == "growing" ~ sample(500:10000, n, replace = T)
     ))
 

@@ -22,18 +22,18 @@ library(rdrsimulate)
 comm <- generate_community(n = 1000)
 comm
 #> # A tibble: 1,000 x 8
-#>      OTU met_state   rDNA_abund rDNA_relabund ribo_amp rRNA_abund
-#>    <int> <chr>            <int>         <dbl>    <int>      <int>
-#>  1     1 dead                 1        0.0472        1          1
-#>  2     2 dead                 1        0.0472        1          1
-#>  3     3 maintenance          1        0.0472      822        822
-#>  4     4 dead                 1        0.0472        1          1
-#>  5     5 dormant              1        0.0472      100        100
-#>  6     6 dormant              1        0.0472      100        100
-#>  7     7 maintenance          1        0.0472      767        767
-#>  8     8 maintenance          7        0.330       403       2821
-#>  9     9 maintenance          2        0.0944      682       1364
-#> 10    10 maintenance          1        0.0472      789        789
+#>      OTU met_state  rDNA_abund rDNA_relabund ribo_amp rRNA_abund
+#>    <int> <chr>           <int>         <dbl>    <int>      <int>
+#>  1     1 growing             2        0.0919     9216      18432
+#>  2     2 dormant             1        0.0460      100        100
+#>  3     3 dormant             1        0.0460      100        100
+#>  4     4 stationary          1        0.0460      688        688
+#>  5     5 dormant             8        0.368       100        800
+#>  6     6 growing             2        0.0919     2091       4182
+#>  7     7 stationary          3        0.138       328        984
+#>  8     8 stationary          4        0.184       243        972
+#>  9     9 growing             3        0.138      8345      25035
+#> 10    10 dead                1        0.0460        1          1
 #> # ... with 990 more rows, and 2 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>
 ```
@@ -45,7 +45,7 @@ rDNA abundances (i.e. cell counts) for each OTU are drawn from a
 log-normal distribution with parameters μ = 0, σ = 1.
 
 The community is randomly divided into metabolic states of dead,
-dormant, maintenance or growing, with the proportion of each state drawn
+dormant, stationary or growing, with the proportion of each state drawn
 at random from a uniform distribution. The metabolic state of each OTU
 is independent of the OTU’s rDNA abundance.
 
@@ -78,18 +78,18 @@ Steven et al. 2017:
 comm <- generate_community(1000)
 sample_community(comm, nDNA = 500, nRNA = 500)
 #> # A tibble: 1,000 x 9
-#>      OTU met_state   rDNA_abund rDNA_relabund ribo_amp rRNA_abund
-#>    <int> <chr>            <int>         <dbl>    <int>      <int>
-#>  1     1 dead                 4           0.8        1          0
-#>  2     2 dead                 0           0          1          0
-#>  3     3 growing              0           0       6979          6
-#>  4     4 growing              0           0       2376          0
-#>  5     5 dormant              0           0        100          0
-#>  6     6 dormant              0           0        100          0
-#>  7     7 maintenance          0           0        277          0
-#>  8     8 growing              1           0.2     5444          3
-#>  9     9 dead                 0           0          1          0
-#> 10    10 dead                 0           0          1          0
+#>      OTU met_state rDNA_abund rDNA_relabund ribo_amp rRNA_abund
+#>    <int> <chr>          <int>         <dbl>    <int>      <int>
+#>  1     1 dormant            0           0        100          0
+#>  2     2 dead               0           0          1          0
+#>  3     3 growing            0           0       5616          3
+#>  4     4 growing            2           0.4     4725          1
+#>  5     5 growing            0           0       2330          0
+#>  6     6 growing            0           0       6003          0
+#>  7     7 dead               0           0          1          0
+#>  8     8 dead               2           0.4        1          0
+#>  9     9 dead               0           0          1          0
+#> 10    10 dead               4           0.8        1          0
 #> # ... with 990 more rows, and 3 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>, phantom <lgl>
 ```

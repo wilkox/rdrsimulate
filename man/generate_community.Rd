@@ -22,7 +22,7 @@ rDNA abundances (i.e. cell counts) for each OTU are drawn from a log-normal
 distribution with parameters μ = 0, σ = 1.
 
 The community is randomly divided into metabolic states of dead, dormant,
-maintenance or growing, with the proportion of each state drawn at random
+stationary or growing, with the proportion of each state drawn at random
 from a uniform distribution. The metabolic state of each OTU is independent
 of the OTU's rDNA abundance.
 
