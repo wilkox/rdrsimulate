@@ -14,8 +14,10 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 ```
+
 [![Travis-CI Build Status](https://travis-ci.org/wilkox/rdrsimulate.svg?branch=master)](https://travis-ci.org/wilkox/rdrsimulate)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rdrsimulate)](https://cran.r-project.org/package=rdrsimulate)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 'rdrsimulate' simulates microbial communities with a mixture of metabolic states and ribosomal amplification levels, and computes r**R**NA:r**D**NA **r**atios.
 

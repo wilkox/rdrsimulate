@@ -26,6 +26,7 @@
 #'
 #' @import tibble
 #' @import dplyr
+#' @importFrom magrittr %>%
 #' @export
 sample_community <- function(community, nDNA = 20000, nRNA = 20000) {
 

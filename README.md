@@ -1,7 +1,15 @@
 
+  - [Installing the package](#installing-the-package)
+  - [Generating a simulated
+    community](#generating-a-simulated-community)
+  - [Simulating a sequencing-based sampling
+    experiment](#simulating-a-sequencing-based-sampling-experiment)
+  - [References](#references)
+
 [![Travis-CI Build
 Status](https://travis-ci.org/wilkox/rdrsimulate.svg?branch=master)](https://travis-ci.org/wilkox/rdrsimulate)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rdrsimulate)](https://cran.r-project.org/package=rdrsimulate)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 ‘rdrsimulate’ simulates microbial communities with a mixture of
 metabolic states and ribosomal amplification levels, and computes
@@ -22,24 +30,24 @@ library(rdrsimulate)
 comm <- generate_community(n = 1000)
 comm
 #> # A tibble: 1,000 x 8
-#>      OTU met_state  rDNA_abund rDNA_relabund ribo_amp rRNA_abund
-#>    <int> <chr>           <int>         <dbl>    <int>      <int>
-#>  1     1 growing             2        0.0919     9216      18432
-#>  2     2 dormant             1        0.0460      100        100
-#>  3     3 dormant             1        0.0460      100        100
-#>  4     4 stationary          1        0.0460      688        688
-#>  5     5 dormant             8        0.368       100        800
-#>  6     6 growing             2        0.0919     2091       4182
-#>  7     7 stationary          3        0.138       328        984
-#>  8     8 stationary          4        0.184       243        972
-#>  9     9 growing             3        0.138      8345      25035
-#> 10    10 dead                1        0.0460        1          1
-#> # ... with 990 more rows, and 2 more variables: rRNA_relabund <dbl>,
+#>      OTU met_state rDNA_abund rDNA_relabund ribo_amp rRNA_abund
+#>    <int> <chr>          <int>         <dbl>    <int>      <int>
+#>  1     1 growing            1        0.0453     6514       6514
+#>  2     2 growing            4        0.181      1099       4396
+#>  3     3 dead               2        0.0905        1          2
+#>  4     4 dormant            1        0.0453      100        100
+#>  5     5 dormant            1        0.0453      100        100
+#>  6     6 stationa…          3        0.136       535       1605
+#>  7     7 dormant            3        0.136       100        300
+#>  8     8 growing            1        0.0453     5714       5714
+#>  9     9 stationa…          1        0.0453      857        857
+#> 10    10 dead              14        0.634         1         14
+#> # … with 990 more rows, and 2 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>
 ```
 
 The `generate_community` function follows the approach described in
-Steven et al. (2017), with some modifications.
+Steven et al. (2017), with some modifications.
 
 rDNA abundances (i.e. cell counts) for each OTU are drawn from a
 log-normal distribution with parameters μ = 0, σ = 1.
@@ -80,17 +88,17 @@ sample_community(comm, nDNA = 500, nRNA = 500)
 #> # A tibble: 1,000 x 9
 #>      OTU met_state rDNA_abund rDNA_relabund ribo_amp rRNA_abund
 #>    <int> <chr>          <int>         <dbl>    <int>      <int>
-#>  1     1 dormant            0           0        100          0
+#>  1     1 stationa…          1           0.2      600          1
 #>  2     2 dead               0           0          1          0
-#>  3     3 growing            0           0       5616          3
-#>  4     4 growing            2           0.4     4725          1
-#>  5     5 growing            0           0       2330          0
-#>  6     6 growing            0           0       6003          0
-#>  7     7 dead               0           0          1          0
-#>  8     8 dead               2           0.4        1          0
+#>  3     3 dormant            1           0.2      100          0
+#>  4     4 stationa…          1           0.2      507          1
+#>  5     5 dead               0           0          1          0
+#>  6     6 dormant            0           0        100          0
+#>  7     7 stationa…          1           0.2      362          0
+#>  8     8 dead               1           0.2        1          0
 #>  9     9 dead               0           0          1          0
-#> 10    10 dead               4           0.8        1          0
-#> # ... with 990 more rows, and 3 more variables: rRNA_relabund <dbl>,
+#> 10    10 stationa…          0           0        503          0
+#> # … with 990 more rows, and 3 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>, phantom <lgl>
 ```
 

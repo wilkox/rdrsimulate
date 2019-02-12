@@ -51,7 +51,7 @@
 #'
 #' @import tibble
 #' @import dplyr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @export
 generate_community <- function(n = 5000) {
 

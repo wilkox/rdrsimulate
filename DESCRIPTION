@@ -6,7 +6,8 @@ Description: 'rdrsimulate' simulates microbial communities with a mixture of met
 Depends: R (>= 3.5.0)
 Imports:
   tibble (>= 1.4.2),
-  dplyr (>= 0.7.4)
+  dplyr (>= 0.7.4),
+  magrittr (>= 1.5)
 License: GPL (>=3)
 Encoding: UTF-8
 LazyData: true
@@ -16,5 +17,5 @@ Suggests: knitr,
     purrr,
     ggplot2
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
