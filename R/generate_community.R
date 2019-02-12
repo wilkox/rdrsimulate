@@ -53,6 +53,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 #' @export
+#' @encoding UTF-8
 generate_community <- function(n = 5000) {
 
   # Set up the community
