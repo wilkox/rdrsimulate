@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 
 This package is based on the approach described in:
 
-Steven, B., Hesse, C., Soghigian, J., Gallegos-Graves, L. V. & Dunbar, J. Simulated rRNA/DNA Ratios Show Potential To Misclassify Active Populations as Dormant. Appl Env Microbiol 83, e00696–17–11 (2017).
+Steven, B., Hesse, C., Soghigian, J., Gallegos-Graves, L. V. & Dunbar, J. Simulated rRNA/DNA Ratios Show Potential To Misclassify Active Populations as Dormant. Appl Env Microbiol 83, e00696-17-11 (2017).
 
 However, there are a few key differences in this package compared to Steven et al.'s approach:
 
-1. The log-normal distribution from which population rDNA abundances are drawn has the fixed parameters μ = 0, σ = 1, with the intention of simulating a real microbial community as closely as possible. Steven et al. allowed these values to be set as simulation parameters.
+1. The log-normal distribution from which population rDNA abundances are drawn has the fixed parameters \eqn{\mu = 0}, \eqn{\sigma = 1}, with the intention of simulating a real microbial community as closely as possible. Steven et al. allowed these values to be set as simulation parameters.
 2. Only integer values for the rDNA absolute abundance are permitted (the Steven et al. simulation permitted fractional rDNA abundances). Fractional rDNA relative abundances are of course still permitted.
 3. The ribosomal amplification model is fixed as a "mixed" model, rather than offering a choice of a "low", "medium" or "high" amplification. This is again with the intention of best simulating a real microbial community.
 4. In the "mixed" model, the ribosomal amplification value for the stationary and growing metabolic states are drawn at random from the uniform distributions 200:1000 and 500:10000 respectively. In the Steven et al. simulation, the amplification values were randomly drawn from three discrete values for these states in the mixed model. Amplification values for the dead and dormant states are still fixed at 1 and 100 respectively.

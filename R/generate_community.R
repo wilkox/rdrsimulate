@@ -5,7 +5,7 @@
 #' abundances. 
 #'
 #' rDNA abundances (i.e. cell counts) for each OTU are drawn from a log-normal
-#' distribution with parameters μ = 0, σ = 1.
+#' distribution with parameters \eqn{\mu = 0}, \eqn{\sigma = 1}.
 #'
 #' The community is randomly divided into metabolic states of dead, dormant,
 #' stationary or growing, with the proportion of each state drawn at random
@@ -47,13 +47,12 @@
 #'
 #' Steven, B., Hesse, C., Soghigian, J., Gallegos-Graves, L. V. & Dunbar, J.
 #' Simulated rRNA/DNA Ratios Show Potential To Misclassify Active Populations
-#' as Dormant. Appl Env Microbiol 83, e00696–17–11 (2017).
+#' as Dormant. Appl Env Microbiol 83, e00696-17-11 (2017).
 #'
 #' @import tibble
 #' @import dplyr
 #' @importFrom magrittr %>%
 #' @export
-#' @encoding UTF-8
 generate_community <- function(n = 5000) {
 
   # Set up the community

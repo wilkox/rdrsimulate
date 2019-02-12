@@ -32,16 +32,16 @@ comm
 #> # A tibble: 1,000 x 8
 #>      OTU met_state rDNA_abund rDNA_relabund ribo_amp rRNA_abund
 #>    <int> <chr>          <int>         <dbl>    <int>      <int>
-#>  1     1 growing            1        0.0490     2386       2386
-#>  2     2 growing            2        0.0980     2382       4764
-#>  3     3 growing            1        0.0490     7684       7684
-#>  4     4 growing            8        0.392      9844      78752
-#>  5     5 stationa…          5        0.245       900       4500
-#>  6     6 dormant            2        0.0980      100        200
-#>  7     7 growing            1        0.0490     2823       2823
-#>  8     8 stationa…          1        0.0490      402        402
-#>  9     9 growing            2        0.0980     6789      13578
-#> 10    10 stationa…          1        0.0490      589        589
+#>  1     1 dormant            2        0.0996      100        200
+#>  2     2 growing            3        0.149      7799      23397
+#>  3     3 growing            1        0.0498     1125       1125
+#>  4     4 dormant            1        0.0498      100        100
+#>  5     5 dormant            1        0.0498      100        100
+#>  6     6 growing            2        0.0996     2461       4922
+#>  7     7 dormant            1        0.0498      100        100
+#>  8     8 dormant            1        0.0498      100        100
+#>  9     9 dormant            2        0.0996      100        200
+#> 10    10 dormant            5        0.249       100        500
 #> # … with 990 more rows, and 2 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>
 ```
@@ -88,16 +88,16 @@ sample_community(comm, nDNA = 500, nRNA = 500)
 #> # A tibble: 1,000 x 9
 #>      OTU met_state rDNA_abund rDNA_relabund ribo_amp rRNA_abund
 #>    <int> <chr>          <int>         <dbl>    <int>      <int>
-#>  1     1 dormant            2           0.4      100          0
-#>  2     2 stationa…          2           0.4      767          1
-#>  3     3 dead               0           0          1          0
-#>  4     4 dead               0           0          1          0
-#>  5     5 stationa…          2           0.4      322          0
-#>  6     6 growing            1           0.2     5326          3
-#>  7     7 dead               0           0          1          0
-#>  8     8 stationa…          0           0        564          0
-#>  9     9 growing            1           0.2     3334          0
-#> 10    10 growing            0           0       4521          0
+#>  1     1 dormant            0           0        100          0
+#>  2     2 dead               3           0.6        1          0
+#>  3     3 dormant            0           0        100          0
+#>  4     4 growing            1           0.2     3474          0
+#>  5     5 dead               2           0.4        1          0
+#>  6     6 growing            0           0       4280          0
+#>  7     7 stationa…          0           0        420          0
+#>  8     8 growing            1           0.2     5803          3
+#>  9     9 dead               0           0          1          0
+#> 10    10 dormant            1           0.2      100          0
 #> # … with 990 more rows, and 3 more variables: rRNA_relabund <dbl>,
 #> #   ratio <dbl>, phantom <lgl>
 ```
